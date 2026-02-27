@@ -10,7 +10,6 @@
   <meta property="og:title" content="¡Feliz cumple, Susana! 😺🎉" />
   <meta property="og:description" content="Una tarjeta con cariño de Adrián (con confeti y un gatito)." />
   <meta property="og:url" content="https://adrianmc123.github.io/susana/" />
-  <!-- Sube pastel.svg al mismo folder que index.html (root) -->
   <meta property="og:image" content="https://adrianmc123.github.io/REPO/pastel.svg" />
   <meta property="og:image:alt" content="Gatito de cumpleaños con confeti" />
 
@@ -21,8 +20,6 @@
       --accent:#fbbf24; --pink:#fb7185; --mint:#34d399;
     }
     *{box-sizing:border-box}
-
-    /* CLAVE: permitir scroll vertical en móvil */
     body{
       margin:0;
       min-height:100vh;
@@ -33,7 +30,7 @@
         radial-gradient(900px 600px at 85% 20%, #06b6d444, transparent 55%),
         linear-gradient(160deg,var(--bg1),var(--bg2));
       overflow-x:hidden;
-      overflow-y:auto;
+      overflow-y:auto; /* importante para móvil */
     }
 
     .wrap{
@@ -71,28 +68,31 @@
 
     h1{
       margin:14px 0 8px;
-      font-size:clamp(28px,4.2vw,46px);
+      font-size:clamp(26px,4.2vw,46px);
       letter-spacing:-0.02em;
-      line-height:1.1;
+      line-height:1.12;
+      overflow-wrap:anywhere; /* por si algún día pones texto largo */
     }
     .name{color:var(--accent); font-weight:800}
     p{
       margin:0;
       color:var(--muted);
       font-size:clamp(15px,2vw,18px);
-      line-height:1.6;
+      line-height:1.65;
+      overflow-wrap:anywhere;
     }
 
+    /* Paneles: en desktop 2 columnas, en móvil 1 */
     .grid{
       display:grid;
       gap:16px;
       margin-top:16px;
-      grid-template-columns: 1.05fr .95fr;
+      grid-template-columns: 1fr 1fr;
       align-items:stretch;
     }
     @media (max-width: 860px){
-      .grid{grid-template-columns:1fr;}
-      .card{padding:18px;}
+      .grid{ grid-template-columns: 1fr; }
+      .card{ padding:18px; }
     }
 
     .panel{
@@ -100,23 +100,32 @@
       background:#0b1226aa;
       border-radius:18px;
       padding:16px;
+      min-width:0; /* evita que el contenido empuje el panel */
     }
 
-    /* CLAVE: no recortar al gato */
+    /* Gatito: hacemos que SIEMPRE quepa dentro del panel */
     .catBox{
       display:grid;
-      place-items:center;
-      padding:18px;
+      grid-template-rows: auto auto;
+      gap:12px;
+      justify-items:center;
+      padding:16px;
       position:relative;
-      overflow:visible;
+      overflow:hidden; /* ahora sí, pero con padding suficiente */
     }
 
     .cat{
-      width:min(320px,78vw);
+      /* En vez de 320 fijo, lo atamos al ancho del panel */
+      width:min(280px, 100%);
+      max-width:100%;
       aspect-ratio: 1 / 1;
       position:relative;
-      filter: drop-shadow(0 20px 30px #00000066);
+      filter: drop-shadow(0 18px 26px #00000066);
+      margin-top:6px;
     }
+
+    /* Para que nada se salga del cuadrado del gato */
+    .cat *{ max-width:100%; }
 
     .head{
       position:absolute; inset:10% 12% 18% 12%;
@@ -223,11 +232,12 @@
     }
 
     .softLine{
-      margin-top:10px;
+      margin:0;
       text-align:center;
-      font-weight:750;
-      font-size:clamp(14px,2vw,18px);
+      font-weight:700;
+      font-size:clamp(14px,2vw,17px);
       color:#f8fafc;
+      max-width: 32ch; /* evita que se haga demasiado ancho */
     }
 
     .actions{
@@ -261,7 +271,7 @@
     <div class="card" role="article" aria-label="Tarjeta de cumpleaños">
       <header>
         <div class="pill">🎂 Feliz cumpleaños</div>
-        <div class="pill" id="dateBadge">📅 17 de febrero</div>
+        <div class="pill" id="dateBadge">📅 27 de febrero</div>
       </header>
 
       <h1>Susana, <span class="name">¡feliz cumple!</span> ✨</h1>
@@ -284,7 +294,7 @@
               <div class="candle"><div class="flame"></div></div>
             </div>
           </div>
-          <div class="softLine">Que hoy sea un día bonito y ligero, lleno de paz y sonrisas. 😺</div>
+          <p class="softLine">Que hoy sea un día bonito y ligero, lleno de paz y sonrisas. 😺</p>
         </section>
 
         <section class="panel" aria-label="Mensaje y controles">
@@ -296,18 +306,17 @@
           <div class="actions">
             <button class="primary" id="btnCelebrate">Celebrar 🎉</button>
             <button id="btnMusic">Música: OFF</button>
-            
           </div>
 
           <p class="small">
-             Algunos navegadores bloquean la música automática; por eso se activa con el botón :D
+            Nota: algunos navegadores bloquean la música automática; por eso se activa con el botón.
           </p>
         </section>
       </div>
     </div>
   </div>
 
-  <!-- Asegúrate de subir feliz_cumple.mp3 junto a index.html (mismo folder) -->
+  <!-- Sube feliz_cumple.mp3 junto a index.html (mismo folder) -->
   <audio id="music" preload="auto" loop>
     <source src="feliz_cumple.mp3" type="audio/mpeg">
   </audio>
@@ -332,10 +341,13 @@
 
       const dur = 2200 + Math.random()*1800;
       const x = (Math.random()*2-1)*120;
-      s.animate([
-        { transform:`translate(0,0) rotate(0deg)`, opacity:1 },
-        { transform:`translate(${x}px, 105vh) rotate(720deg)`, opacity:1 }
-      ], { duration: dur, easing:"cubic-bezier(.2,.7,.2,1)" });
+      s.animate(
+        [
+          { transform:`translate(0,0) rotate(0deg)`, opacity:1 },
+          { transform:`translate(${x}px, 105vh) rotate(720deg)`, opacity:1 }
+        ],
+        { duration: dur, easing:"cubic-bezier(.2,.7,.2,1)" }
+      );
 
       setTimeout(()=>s.remove(), dur+50);
     }
@@ -363,17 +375,9 @@
     }
   });
 
- 
-    const text =
-      "Susana, ¡feliz cumpleaños! ✨\n\n" +
-      "Te deseo un año lleno de salud, amor, tranquilidad y momentos felices.\n" +
-      "Que se te cumpla lo que estás buscando y que nunca te falte cariño.\n\n" +
-      "Con cariño, Adrián.";
-   
-
-  // Auto confetti si se abre el 17 de febrero
+  // Auto confetti si se abre el 27 de febrero
   const now = new Date();
-  if(now.getDate() === 17 && now.getMonth() === 1){
+  if(now.getDate() === 27 && now.getMonth() === 1){
     setTimeout(celebrate, 650);
   }
 </script>

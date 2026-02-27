@@ -5,12 +5,13 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>¡Feliz cumple, Susana!</title>
 
-  <!-- Open Graph para vista previa al compartir -->
+  <!-- Open Graph (cambia REPO por el nombre real de tu repo) -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="¡Feliz cumple, Susana! 😺🎉" />
   <meta property="og:description" content="Una tarjeta con cariño de Adrián (con confeti y un gatito)." />
-  <meta property="og:url" content="https://github.com/adrianmc123/susana.git" />
-  <meta property="og:image" content="https://github.com/adrianmc123/susana.git/pastel.svg" />
+  <meta property="og:url" content="https://adrianmc123.github.io/susana/" />
+  <!-- Sube pastel.svg al mismo folder que index.html (root) -->
+  <meta property="og:image" content="https://adrianmc123.github.io/REPO/pastel.svg" />
   <meta property="og:image:alt" content="Gatito de cumpleaños con confeti" />
 
   <style>
@@ -20,17 +21,27 @@
       --accent:#fbbf24; --pink:#fb7185; --mint:#34d399;
     }
     *{box-sizing:border-box}
+
+    /* CLAVE: permitir scroll vertical en móvil */
     body{
-      margin:0; min-height:100vh; display:grid; place-items:center;
+      margin:0;
+      min-height:100vh;
       font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       color:var(--text);
       background:
         radial-gradient(1100px 700px at 15% 10%, #7c3aed44, transparent 60%),
         radial-gradient(900px 600px at 85% 20%, #06b6d444, transparent 55%),
         linear-gradient(160deg,var(--bg1),var(--bg2));
-      overflow:hidden;
+      overflow-x:hidden;
+      overflow-y:auto;
     }
-    .wrap{width:min(980px,92vw); padding:18px;}
+
+    .wrap{
+      width:min(980px,92vw);
+      padding:18px;
+      margin:0 auto;
+    }
+
     .card{
       border:1px solid #ffffff22;
       background:linear-gradient(180deg, #0f172aee, #0b1226ee);
@@ -38,33 +49,51 @@
       box-shadow: 0 24px 70px #00000066;
       padding:22px;
     }
+
     header{
-      display:flex; gap:12px; justify-content:space-between; align-items:center;
+      display:flex;
+      gap:12px;
+      justify-content:space-between;
+      align-items:center;
       flex-wrap:wrap;
     }
     .pill{
-      display:inline-flex; align-items:center; gap:10px;
-      padding:10px 14px; border-radius:999px;
-      border:1px solid #ffffff22; background:#0b1226aa;
-      color:var(--muted); font-size:14px;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid #ffffff22;
+      background:#0b1226aa;
+      color:var(--muted);
+      font-size:14px;
     }
+
     h1{
       margin:14px 0 8px;
       font-size:clamp(28px,4.2vw,46px);
       letter-spacing:-0.02em;
+      line-height:1.1;
     }
     .name{color:var(--accent); font-weight:800}
     p{
-      margin:0; color:var(--muted);
+      margin:0;
+      color:var(--muted);
       font-size:clamp(15px,2vw,18px);
       line-height:1.6;
     }
 
     .grid{
-      display:grid; gap:16px; margin-top:16px;
+      display:grid;
+      gap:16px;
+      margin-top:16px;
       grid-template-columns: 1.05fr .95fr;
+      align-items:stretch;
     }
-    @media (max-width: 860px){ .grid{grid-template-columns:1fr;} }
+    @media (max-width: 860px){
+      .grid{grid-template-columns:1fr;}
+      .card{padding:18px;}
+    }
 
     .panel{
       border:1px solid #ffffff22;
@@ -73,17 +102,27 @@
       padding:16px;
     }
 
-    /* Gatito “original” en CSS */
-    .catBox{display:grid; place-items:center; padding:18px; position:relative; overflow:hidden;}
+    /* CLAVE: no recortar al gato */
+    .catBox{
+      display:grid;
+      place-items:center;
+      padding:18px;
+      position:relative;
+      overflow:visible;
+    }
+
     .cat{
-      width:min(320px,78vw); aspect-ratio: 1 / 1;
+      width:min(320px,78vw);
+      aspect-ratio: 1 / 1;
       position:relative;
       filter: drop-shadow(0 20px 30px #00000066);
     }
+
     .head{
       position:absolute; inset:10% 12% 18% 12%;
-      background: radial-gradient(circle at 30% 25%, #ffffff22, transparent 45%),
-                  linear-gradient(180deg,#f8caa6,#f3b48c);
+      background:
+        radial-gradient(circle at 30% 25%, #ffffff22, transparent 45%),
+        linear-gradient(180deg,#f8caa6,#f3b48c);
       border-radius:42% 42% 48% 48%;
       border:2px solid #00000020;
     }
@@ -179,24 +218,39 @@
       border-radius: 60% 40% 60% 40%;
       animation: flicker 1s ease-in-out infinite;
     }
-    @keyframes flicker{ 50%{ transform:translateX(-50%) rotate(6deg) scale(1.05)} }
+    @keyframes flicker{
+      50%{ transform:translateX(-50%) rotate(6deg) scale(1.05) }
+    }
 
     .softLine{
-      margin-top:10px; text-align:center;
+      margin-top:10px;
+      text-align:center;
       font-weight:750;
       font-size:clamp(14px,2vw,18px);
       color:#f8fafc;
     }
-    .actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px}
+
+    .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:12px;
+    }
     button{
-      appearance:none; border:1px solid #ffffff22;
-      background:#0b1226aa; color:var(--text);
-      padding:12px 14px; border-radius:14px;
-      font-size:14px; cursor:pointer;
+      appearance:none;
+      border:1px solid #ffffff22;
+      background:#0b1226aa;
+      color:var(--text);
+      padding:12px 14px;
+      border-radius:14px;
+      font-size:14px;
+      cursor:pointer;
     }
     button.primary{
       background:linear-gradient(135deg,var(--accent),var(--pink));
-      border:none; color:#111827; font-weight:800;
+      border:none;
+      color:#111827;
+      font-weight:800;
     }
     .small{font-size:13px; color:#94a3b8; margin-top:10px}
   </style>
@@ -211,7 +265,7 @@
       </header>
 
       <h1>Susana, <span class="name">¡feliz cumple!</span> ✨</h1>
-      <p>Con cariño, <span class="name">Adrian</span>.</p>
+      <p>Con cariño, <span class="name">Adrián</span>.</p>
 
       <div class="grid">
         <section class="panel catBox" aria-label="Gatito de cumpleaños">
@@ -242,17 +296,18 @@
           <div class="actions">
             <button class="primary" id="btnCelebrate">Celebrar 🎉</button>
             <button id="btnMusic">Música: OFF</button>
+            
           </div>
 
           <p class="small">
-            Algunos navegadores bloquean la música automática; por eso se activa con el botón :D
+             Algunos navegadores bloquean la música automática; por eso se activa con el botón :D
           </p>
         </section>
       </div>
     </div>
   </div>
 
-  
+  <!-- Asegúrate de subir feliz_cumple.mp3 junto a index.html (mismo folder) -->
   <audio id="music" preload="auto" loop>
     <source src="feliz_cumple.mp3" type="audio/mpeg">
   </audio>
@@ -271,6 +326,7 @@
       s.style.background=["#fbbf24","#fb7185","#60a5fa","#34d399","#a78bfa"][Math.floor(Math.random()*5)];
       s.style.borderRadius="3px";
       s.style.zIndex="9999";
+      s.style.pointerEvents="none";
       s.style.transform="rotate("+(Math.random()*180)+"deg)";
       document.body.appendChild(s);
 
@@ -290,6 +346,7 @@
   const music = document.getElementById("music");
   const btnMusic = document.getElementById("btnMusic");
   let musicOn = false;
+
   btnMusic.addEventListener("click", async () => {
     try{
       if(!musicOn){
@@ -302,22 +359,23 @@
         btnMusic.textContent = "Música: OFF";
       }
     }catch(e){
-      alert("Tu navegador bloqueó la música. Intenta de nuevo tocando el botón 🙂");
+      alert("Tu navegador bloqueó la música. Intenta de nuevo tocando el botón.");
     }
   });
 
-  // Copiar mensaje
  
     const text =
       "Susana, ¡feliz cumpleaños! ✨\n\n" +
       "Te deseo un año lleno de salud, amor, tranquilidad y momentos felices.\n" +
       "Que se te cumpla lo que estás buscando y que nunca te falte cariño.\n\n" +
       "Con cariño, Adrián.";
-    
+   
 
-  // Auto confetti si se abre el 27 de febrero
+  // Auto confetti si se abre el 17 de febrero
   const now = new Date();
-  if(now.getDate() === 27 && now.getMonth() === 1){ setTimeout(celebrate, 650); }
+  if(now.getDate() === 17 && now.getMonth() === 1){
+    setTimeout(celebrate, 650);
+  }
 </script>
 </body>
 </html>
